@@ -1,19 +1,16 @@
 package com.example.salhumanbe6.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class Employe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +20,9 @@ public class Employe {
     String departement;
     String poste;
     Date date_embauche;
-    @OneToMany(mappedBy = "Employe")
+    @OneToMany(mappedBy = "employe")
     private List<FicheDePaie> ficheDePaie;
-    @OneToMany(mappedBy = "Employe")
+
+    @OneToMany(mappedBy = "employe")
     private List<Conge> conge;
 }

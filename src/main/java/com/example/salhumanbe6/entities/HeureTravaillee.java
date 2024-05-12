@@ -3,18 +3,13 @@ import java.util.Date;
 
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class HeureTravaillee {
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)

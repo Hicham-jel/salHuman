@@ -1,18 +1,15 @@
 package com.example.salhumanbe6.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class FicheDePaie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +19,9 @@ public class FicheDePaie {
     private double montant_net;
     private int details_deductions;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(referencedColumnName = "idEmploye_fk")
+    @JoinColumn(name = "idEmploye_fk", referencedColumnName = "idEmploye")
     private Employe employe;
-    @OneToMany(mappedBy = "FicheDePaie")
+    @OneToMany(mappedBy = "ficheDePaie")
     private List<ElementSalaire> elementSalaire;
 
 }

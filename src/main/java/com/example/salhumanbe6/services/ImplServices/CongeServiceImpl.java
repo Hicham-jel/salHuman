@@ -1,7 +1,8 @@
-package com.example.salhumanbe6.services;
+package com.example.salhumanbe6.services.ImplServices;
 
 import com.example.salhumanbe6.entities.Conge;
 import com.example.salhumanbe6.repositories.CongeRepository;
+import com.example.salhumanbe6.services.CongeService;
 import com.example.salhumanbe6.utils.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CongeServiceImpl implements CongeService{
+public class CongeServiceImpl implements CongeService {
     @Autowired
     CongeRepository congeRepository;
     @Override

@@ -1,19 +1,16 @@
 package com.example.salhumanbe6.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +18,6 @@ public class Utilisateur {
     private String nomUser;
     private String motDePasse;
     private boolean actif;
-    @OneToMany(mappedBy = "Utilisateur")
+    @OneToMany(mappedBy = "utilisateur")
     private List<Role> role;
 }

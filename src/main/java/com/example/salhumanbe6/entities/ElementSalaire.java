@@ -1,19 +1,16 @@
 package com.example.salhumanbe6.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class ElementSalaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +18,6 @@ public class ElementSalaire {
     private double montant;
     private TypeE typeE;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(referencedColumnName = "idFiche")
+    @JoinColumn(name = "idFiche_fk", referencedColumnName = "idFiche")
     private FicheDePaie ficheDePaie;
 }
