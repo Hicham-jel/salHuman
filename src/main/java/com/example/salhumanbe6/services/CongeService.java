@@ -1,17 +1,17 @@
 package com.example.salhumanbe6.services;
 
-import com.example.salhumanbe6.entities.Conge;
+import com.example.salhumanbe6.dtos.congeDTO;
 
 import java.util.List;
 
 public interface CongeService {
-    Conge createConge(Conge conge);
+    congeDTO createConge(congeDTO conge);
 
-    boolean deleteConge(Long idConge);
+    boolean deleteConge(Long IdConge);
 
-    List<Conge> getAllConges();
+    List<congeDTO> getAllConges();
 
-    Conge getConge(Long idConge);
+    congeDTO getConge(Long idConge);
 
-    Conge updateConge(Long idConge, Conge conge);
+    congeDTO updateConge(Long IdConge, congeDTO conge);
 }

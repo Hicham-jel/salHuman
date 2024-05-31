@@ -1,9 +1,8 @@
 package com.example.salhumanbe6.entities;
 
+import com.example.salhumanbe6.enums.TypeE;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Date;
 
 
 @Getter

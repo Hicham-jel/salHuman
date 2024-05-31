@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employes</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- jQuery -->
+    <script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div class="p-3">
+
+    <div class="card">
+        <div class="card-header">Liste Employes</div>
+    </div>
+
+    <div class="card-body">
+
+        <!-- Formulaire de recherche -->
+        <form method="get" th:action="@{/employes}">
+            <label>Recherche</label>
+            <input type="text" name="keyword" th:value="${keyword}">
+            <button type="submit" class="btn btn-info">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+
+        <!-- Tableau des medecins -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th> <th>Nom</th> <th>Prénom</th> <th>Email</th> <th>Spécialité</th>
+                <th>Action</th>
+            </tr>
+
+            <!-- Itération sur la liste des medecins -->
+            <tr th:each="e : ${employes}">
+                <td th:text="${e.idEmploye}"></td>
+                <td th:text="${e.nom}"></td>
+                <td th:text="${e.prenom}"></td>
+                <td th:text="${e.email}"></td>
+                <td>
+                    <a onclick="javascript : return confirm('Etes vous sur ?')"
+                       th:href="@{/employes/delete(id=${e.idEmploye}, keyword=${keyword}, page=${currentPage})}"
+                       class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+        </table>
+
+        <!-- Pagination -->
+        <ul class="nav nav-pills">
+            <!-- Itération sur les pages -->
+            <li th:each="page,status : ${pages}">
+                <a th:href="@{/employes(page=${status.index}, keyword=${keyword})}"
+                   th:class="${currentPage==status.index ? 'btn btn-info ms-1' : 'btn btn-outline-info ms-1'}"
+                   th:text="${status.index}"></a>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.example.salhumanbe6.controllers;
+package com.example.salhumanbe6.exceptions;
 
 public class ResourceNotFoundException extends Exception {
     private static final long serialVersionUID = 1L;

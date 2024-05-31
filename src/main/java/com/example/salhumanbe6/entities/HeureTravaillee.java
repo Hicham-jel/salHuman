@@ -1,6 +1,7 @@
 package com.example.salhumanbe6.entities;
 import java.util.Date;
 
+import com.example.salhumanbe6.enums.TypeH;
 import jakarta.persistence.*;
 
 import lombok.*;

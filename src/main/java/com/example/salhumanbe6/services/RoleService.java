@@ -1,17 +1,17 @@
 package com.example.salhumanbe6.services;
 
-import com.example.salhumanbe6.entities.Role;
+import com.example.salhumanbe6.dtos.roleDTO;
 
 import java.util.List;
 
 public interface RoleService{
-    Role createRole(Role role);
+    roleDTO createRole(roleDTO role);
 
     boolean deleteRole(Long idRole);
 
-    List<Role> getAllRoles();
+    List<roleDTO> getAllRoles();
 
-    Role getRole(Long idRole);
+    roleDTO getRole(Long idRole);
 
-    Role updateRole(Long idRole, Role role);
+    roleDTO updateRole(Long idRole, roleDTO role);
 }

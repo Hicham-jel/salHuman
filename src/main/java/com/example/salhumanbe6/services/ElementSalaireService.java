@@ -1,17 +1,17 @@
 package com.example.salhumanbe6.services;
 
-import com.example.salhumanbe6.entities.ElementSalaire;
+import com.example.salhumanbe6.dtos.elementSalaireDTO;
 
 import java.util.List;
 
 public interface ElementSalaireService {
-    ElementSalaire createElementSalaire(ElementSalaire elementSalaire);
+    elementSalaireDTO createElementSalaire(elementSalaireDTO elementSalaire);
 
     boolean deleteElementSalaire(Long idElementSalaire);
 
-    List<ElementSalaire> getAllElementSalaire();
+    List<elementSalaireDTO> getAllElementSalaire();
 
-    ElementSalaire getElementSalaire(Long idElementSalaire);
+    elementSalaireDTO getElementSalaire(Long idElementSalaire);
 
-    ElementSalaire updateElementSalaire(Long idElementSalaire, ElementSalaire elementSalaire);
+    elementSalaireDTO updateElementSalaire(Long idElementSalaire, elementSalaireDTO elementSalaire);
 }

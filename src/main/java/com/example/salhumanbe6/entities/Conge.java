@@ -16,7 +16,7 @@ private String typeDeConge;
 private Date dateDebut;
 private Date dateFin;
 private String statut;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "idEmploye_fk", referencedColumnName = "idEmploye")
     private Employe employe;
 }

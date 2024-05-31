@@ -1,8 +1,6 @@
 package com.example.salhumanbe6.controllers;
-
-import com.example.salhumanbe6.entities.Conge;
-import com.example.salhumanbe6.entities.Role;
-import com.example.salhumanbe6.services.CongeService;
+import com.example.salhumanbe6.dtos.roleDTO;
+import com.example.salhumanbe6.exceptions.ResourceNotFoundException;
 import com.example.salhumanbe6.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-
-
 @RestController
+@RequestMapping("/role")
 public class RoleContoller {
     private RoleService roleService;
 
@@ -23,22 +19,24 @@ public class RoleContoller {
         this.roleService = roleService;
     }
 
-    @GetMapping(path="/roles")
-    public List<Role> Allroles() {
+
+
+    @PostMapping
+    public ResponseEntity<roleDTO> createRole(@RequestBody(required = true)  roleDTO role) {
+        roleDTO createdRole = roleService.createRole(role);
+
+        return new ResponseEntity<roleDTO>(createdRole, HttpStatus.CREATED);
+    }
+
+    @GetMapping(path="/all")
+    public List<roleDTO> Allroles() {
         return roleService.getAllRoles();
     }
 
-    @PostMapping("rolecreated")
-    public ResponseEntity<Role> createRole(@RequestBody(required = true)  Role role) {
-        Role createdRole = roleService.createRole(role);
+    @GetMapping(path = "/{idRole}")
+    public ResponseEntity<roleDTO> getRole(@PathVariable Long idRole) throws ResourceNotFoundException {
 
-        return new ResponseEntity<Role>(createdRole, HttpStatus.CREATED);
-    }
-
-    @GetMapping(path = "/roles/{idRole}")
-    public ResponseEntity<Role> getRole(@PathVariable Long idRole) throws ResourceNotFoundException {
-
-        Role searchedRole = roleService.getRole(idRole);
+        roleDTO searchedRole = roleService.getRole(idRole);
 
         if (searchedRole == null) {
             throw new ResourceNotFoundException(idRole+" not found");
@@ -47,7 +45,7 @@ public class RoleContoller {
         return new ResponseEntity<>(searchedRole, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/deletedRole/{idRole}")
+    @DeleteMapping(path = "/{idRole}")
     public ResponseEntity<Void> deleteRole(@PathVariable Long idRole) throws ResourceNotFoundException {
         if (!roleService.deleteRole(idRole)) {
             throw new ResourceNotFoundException(idRole + "is not found");
@@ -55,10 +53,10 @@ public class RoleContoller {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(path = "/updatedRole/{idRole}")
-    public ResponseEntity<Role> updateRole(@PathVariable Long idConge,
-                                             @RequestBody(required = true) Role role) throws ResourceNotFoundException {
-        Role updateRole = roleService.updateRole(idConge, role);
+    @PutMapping(path = "/{idRole}")
+    public ResponseEntity<roleDTO> updateRole(@PathVariable Long idConge,
+                                             @RequestBody(required = true) roleDTO role) throws ResourceNotFoundException {
+        roleDTO updateRole = roleService.updateRole(idConge, role);
         if ( updateRole== null) {
             throw new ResourceNotFoundException(idConge + "is not found");
         }

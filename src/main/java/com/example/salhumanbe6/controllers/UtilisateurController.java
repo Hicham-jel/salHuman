@@ -1,8 +1,7 @@
 package com.example.salhumanbe6.controllers;
 
-import com.example.salhumanbe6.entities.Conge;
-import com.example.salhumanbe6.entities.Utilisateur;
-import com.example.salhumanbe6.services.CongeService;
+import com.example.salhumanbe6.dtos.utilisateurDTO;
+import com.example.salhumanbe6.exceptions.ResourceNotFoundException;
 import com.example.salhumanbe6.services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/utilisateur")
 public class UtilisateurController {
     private UtilisateurService utilisateurService;
     @Autowired
@@ -22,22 +22,25 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
     }
 
-    @GetMapping(path="/utilisateurs")
-    public List<Utilisateur> AllUtilisateurs() {
+
+
+    @PostMapping
+    public ResponseEntity<utilisateurDTO> createUtilisateur(@RequestBody(required = true) utilisateurDTO utilisateur) {
+        utilisateurDTO createdUtilisateur = utilisateurService.createUtilisateur(utilisateur);
+
+        return new ResponseEntity<utilisateurDTO>(createdUtilisateur, HttpStatus.CREATED);
+    }
+
+    @GetMapping(path="/all")
+    public List<utilisateurDTO> AllUtilisateurs() {
         return utilisateurService.getAllUtilisateur();
     }
 
-    @PostMapping("utilisateurcreated")
-    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody(required = true)  Utilisateur utilisateur) {
-        Utilisateur createdUtilisateur = utilisateurService.createUtilisateur(utilisateur);
 
-        return new ResponseEntity<Utilisateur>(createdUtilisateur, HttpStatus.CREATED);
-    }
+    @GetMapping(path = "/{idUtilisateur}")
+    public ResponseEntity<utilisateurDTO> getUtilisateur(@PathVariable Long idUtilisateur) throws ResourceNotFoundException {
 
-    @GetMapping(path = "/utilisateurs/{idUtilisateur}")
-    public ResponseEntity<Utilisateur> getUtilisateur(@PathVariable Long idUtilisateur) throws ResourceNotFoundException {
-
-        Utilisateur searchedUtilisateur = utilisateurService.getUtilisateur(idUtilisateur);
+        utilisateurDTO searchedUtilisateur = utilisateurService.getUtilisateur(idUtilisateur);
 
         if (searchedUtilisateur == null) {
             throw new ResourceNotFoundException(idUtilisateur+" not found");
@@ -46,7 +49,7 @@ public class UtilisateurController {
         return new ResponseEntity<>(searchedUtilisateur, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/deletedUtilisateur/{idUtilisateur}")
+    @DeleteMapping(path = "/{idUtilisateur}")
     public ResponseEntity<Void> deleteUtilisateur(@PathVariable Long idUtilisateur) throws ResourceNotFoundException {
         if (!utilisateurService.deleteUtilisateur(idUtilisateur)) {
             throw new ResourceNotFoundException(idUtilisateur + "is not found");
@@ -54,10 +57,10 @@ public class UtilisateurController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(path = "/updatedUtilisateur/{idUtilisateur}")
-    public ResponseEntity<Utilisateur> updateUtilisateur(@PathVariable Long idUtilisateur,
-                                             @RequestBody(required = true) Utilisateur utilisateur) throws ResourceNotFoundException {
-        Utilisateur updatedUtilisateur = utilisateurService.updateUtilisateur(idUtilisateur, utilisateur);
+    @PutMapping(path = "/{idUtilisateur}")
+    public ResponseEntity<utilisateurDTO> updateUtilisateur(@PathVariable Long idUtilisateur,
+                                             @RequestBody(required = true) utilisateurDTO utilisateur) throws ResourceNotFoundException {
+        utilisateurDTO updatedUtilisateur = utilisateurService.updateUtilisateur(idUtilisateur, utilisateur);
         if ( updatedUtilisateur== null) {
             throw new ResourceNotFoundException(idUtilisateur + "is not found");
         }

@@ -1,8 +1,7 @@
 package com.example.salhumanbe6.services.ImplServices;
 
-import com.example.salhumanbe6.entities.Conge;
+import com.example.salhumanbe6.dtos.roleDTO;
 import com.example.salhumanbe6.entities.Role;
-import com.example.salhumanbe6.repositories.CongeRepository;
 import com.example.salhumanbe6.repositories.RoleRepository;
 import com.example.salhumanbe6.services.RoleService;
 import com.example.salhumanbe6.utils.ObjectMapperUtils;
@@ -16,41 +15,42 @@ import java.util.Optional;
 public class RoleServiceImpl implements RoleService {
     @Autowired
     RoleRepository roleRepository;
+
     @Override
-    public Role createRole(Role role) {
-        Role addRole = roleRepository.save(ObjectMapperUtils.map(role,Role.class));
-        return ObjectMapperUtils.map(addRole, Role.class);
+    public roleDTO createRole(roleDTO role) {
+        Role addedRole = roleRepository.save(ObjectMapperUtils.map( role,  Role.class));
+        return ObjectMapperUtils.map(addedRole, roleDTO.class);
     }
 
     @Override
-    public boolean deleteRole(Long idRole) {
-        Optional<Role> searchedRole = roleRepository.findById(idRole);
+    public boolean deleteRole(Long IdRole) {
+        Optional<  Role> searchedRole = roleRepository.findById(IdRole);
+
         if(searchedRole.isEmpty()) return false;
         roleRepository.delete(searchedRole.get());
         return true;
     }
 
     @Override
-    public List<Role> getAllRoles() {
-        List<Role> roleList = roleRepository.findAll();
-        List<Role> roles = ObjectMapperUtils.mapAll(roleList, Role.class);
+    public List<roleDTO> getAllRoles() {
+        List< Role> roleList = roleRepository.findAll();
+        List<roleDTO> roles = ObjectMapperUtils.mapAll(roleList, roleDTO.class);
         return roles;
     }
 
     @Override
-    public Role getRole(Long idRole) {
-        Optional<Role> searchedRole = roleRepository.findById(idRole);
+    public roleDTO getRole(Long IdRole) {
+        Optional< Role> searchedEmploye = roleRepository.findById(IdRole);
 
-        if(searchedRole.isEmpty()) return null;
-        return ObjectMapperUtils.map(searchedRole.get(), Role.class);
+        if(searchedEmploye.isEmpty()) return null;
+        return ObjectMapperUtils.map(searchedEmploye.get(), roleDTO.class);
     }
 
     @Override
-    public Role updateRole(Long idRole, Role role) {
-
-            if(!roleRepository.existsById(idRole))
-                return null;
-            else
-                return ObjectMapperUtils.map(roleRepository.save(ObjectMapperUtils.map(role, Role.class)), Role.class);
+    public roleDTO updateRole(Long IdRole, roleDTO role) {
+        if(!roleRepository.existsById(IdRole))
+            return null;
+        else
+            return ObjectMapperUtils.map(roleRepository.save(ObjectMapperUtils.map(role, Role.class)), roleDTO.class);
     }
 }
