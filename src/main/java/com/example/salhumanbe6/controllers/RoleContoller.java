@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/role")
+@CrossOrigin("*")
 public class RoleContoller {
     private RoleService roleService;
 

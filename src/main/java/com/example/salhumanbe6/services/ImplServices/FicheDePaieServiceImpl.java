@@ -1,7 +1,11 @@
 package com.example.salhumanbe6.services.ImplServices;
 
 import com.example.salhumanbe6.dtos.ficheDePaieDTO;
+import com.example.salhumanbe6.entities.Conge;
+import com.example.salhumanbe6.entities.ElementSalaire;
+import com.example.salhumanbe6.entities.Employe;
 import com.example.salhumanbe6.entities.FicheDePaie;
+import com.example.salhumanbe6.repositories.ElementSalaireRepository;
 import com.example.salhumanbe6.repositories.FicheDePaieRepository;
 import com.example.salhumanbe6.services.FicheDePaieService;
 import com.example.salhumanbe6.utils.ObjectMapperUtils;
@@ -15,6 +19,8 @@ import java.util.Optional;
 public class FicheDePaieServiceImpl implements FicheDePaieService {
     @Autowired
     FicheDePaieRepository ficheDePaieRepository;
+    @Autowired
+    private ElementSalaireRepository elementSalaireRepository;
 
 
     @Override
@@ -25,10 +31,14 @@ public class FicheDePaieServiceImpl implements FicheDePaieService {
 
     @Override
     public boolean deleteFicheDePaie(Long IdFicheDePaie) {
-        Optional< FicheDePaie> searchedFicheDePaie = ficheDePaieRepository.findById(IdFicheDePaie);
+        Optional<FicheDePaie> searchedFicheDePAie = ficheDePaieRepository.findById(IdFicheDePaie);
 
-        if(searchedFicheDePaie.isEmpty()) return false;
-        ficheDePaieRepository.delete(searchedFicheDePaie.get());
+        if(searchedFicheDePAie.isEmpty()) return false;
+        List<ElementSalaire> elementSalaires = elementSalaireRepository.findAllByFicheDePaie(searchedFicheDePAie.get());
+        if(!elementSalaires.isEmpty()) {
+            elementSalaireRepository.deleteAll(elementSalaires);
+        }
+        ficheDePaieRepository.delete(searchedFicheDePAie.get());
         return true;
     }
 

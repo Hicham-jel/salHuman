@@ -5,6 +5,7 @@ import com.example.salhumanbe6.exceptions.ResourceNotFoundException;
 import com.example.salhumanbe6.services.CongeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,16 +23,19 @@ public class CongeController {
 
 
     @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<congeDTO> createConge(@RequestBody(required = true) congeDTO conge) {
         congeDTO createdConge = congeService.createConge(conge);
         return new ResponseEntity<congeDTO>(createdConge, HttpStatus.CREATED);
     }
     @GetMapping(path="/all")
+    @PreAuthorize("hasAuthority('SCOPE_USER')")
     public List<congeDTO> AllConges() {
         return congeService.getAllConges();
     }
 
     @GetMapping(path = "/{idConge}")
+    @PreAuthorize("hasAuthority('SCOPE_USER')")
     public ResponseEntity<congeDTO> getConge(@PathVariable Long idConge) throws ResourceNotFoundException {
 
         congeDTO searchedConge = congeService.getConge(idConge);
@@ -44,6 +48,7 @@ public class CongeController {
     }
 
     @DeleteMapping(path = "/{idConge}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> deleteConge(@PathVariable Long idConge) throws ResourceNotFoundException {
         if (!congeService.deleteConge(idConge)) {
             throw new ResourceNotFoundException(idConge + "is not found");
@@ -52,6 +57,7 @@ public class CongeController {
     }
 
     @PutMapping(path = "/{idConge}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<congeDTO> updateConge(@PathVariable Long idConge,
                                                     @RequestBody(required = true) congeDTO conge) throws ResourceNotFoundException {
         congeDTO updatedConge = congeService.updateConge(idConge, conge);
