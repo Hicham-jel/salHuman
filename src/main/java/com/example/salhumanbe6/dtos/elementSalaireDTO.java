@@ -14,4 +14,5 @@ public class elementSalaireDTO {
     private Long idElementSalaire;
     private double montant;
     private TypeE typeE;
+    private Long idFiche;
 }

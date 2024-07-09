@@ -1,10 +1,17 @@
 package com.example.salhumanbe6.services.ImplServices;
 
 import com.example.salhumanbe6.dtos.employeDTO;
+import com.example.salhumanbe6.entities.Conge;
+import com.example.salhumanbe6.entities.ElementSalaire;
 import com.example.salhumanbe6.entities.Employe;
+import com.example.salhumanbe6.entities.FicheDePaie;
 import com.example.salhumanbe6.mappers.transf;
+import com.example.salhumanbe6.repositories.CongeRepository;
+import com.example.salhumanbe6.repositories.ElementSalaireRepository;
 import com.example.salhumanbe6.repositories.EmployeRepository;
+import com.example.salhumanbe6.repositories.FicheDePaieRepository;
 import com.example.salhumanbe6.services.EmployeService;
+import com.example.salhumanbe6.services.FicheDePaieService;
 import com.example.salhumanbe6.utils.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +26,12 @@ import java.util.stream.Collectors;
 public class EmployeServiceImpl implements EmployeService {
     @Autowired
     EmployeRepository employeRepository;
+    @Autowired
+    CongeRepository congeRepository;
+    @Autowired
+    FicheDePaieRepository ficheDePaieRepository;
+    @Autowired
+    ElementSalaireRepository elementSalaireRepository;
     private transf dtoMapper;
 
     @Override
@@ -39,6 +52,12 @@ public class EmployeServiceImpl implements EmployeService {
         Optional< Employe> searchedEmploye = employeRepository.findById(IdEmploye);
 
         if(searchedEmploye.isEmpty()) return false;
+        List<Conge> conges = congeRepository.findAllByEmploye(searchedEmploye.get());
+        List<FicheDePaie> fichedepaie= ficheDePaieRepository.findAllByEmploye(searchedEmploye.get());
+        if(!conges.isEmpty()) {
+            congeRepository.deleteAll(conges);
+            ficheDePaieRepository.deleteAll(fichedepaie);
+        }
         employeRepository.delete(searchedEmploye.get());
         return true;
     }
@@ -56,6 +75,14 @@ public class EmployeServiceImpl implements EmployeService {
 
         if(searchedEmploye.isEmpty()) return null;
         return ObjectMapperUtils.map(searchedEmploye.get(), employeDTO.class);
+    }
+
+    @Override
+    public String getEmployeName(Long idEmploye) {
+        Optional< Employe> searchedEmploye = employeRepository.findById(idEmploye);
+
+        if(searchedEmploye.isEmpty()) return null;
+        return searchedEmploye.get().getNom();
     }
 
     @Override

@@ -32,7 +32,6 @@ public class CongeServiceImpl implements CongeService {
         congeRepository.delete(searchedConge.get());
         return true;
     }
-
     @Override
     public List<congeDTO> getAllConges() {
         List<Conge> congeList = congeRepository.findAll();

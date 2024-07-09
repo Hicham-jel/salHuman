@@ -9,12 +9,13 @@ import lombok.*;
 @Setter
 @Entity
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class ElementSalaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idElementSalaire;
     private double montant;
+    @Enumerated(EnumType.STRING)
     private TypeE typeE;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idFiche_fk", referencedColumnName = "idFiche")

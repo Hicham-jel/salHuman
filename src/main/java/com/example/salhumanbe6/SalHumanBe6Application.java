@@ -3,6 +3,7 @@ package com.example.salhumanbe6;
 import com.example.salhumanbe6.dtos.congeDTO;
 import com.example.salhumanbe6.dtos.employeDTO;
 import com.example.salhumanbe6.entities.*;
+import com.example.salhumanbe6.enums.TypeE;
 import com.example.salhumanbe6.mappers.transf;
 import com.example.salhumanbe6.repositories.CongeRepository;
 import com.example.salhumanbe6.repositories.ElementSalaireRepository;
@@ -10,15 +11,13 @@ import com.example.salhumanbe6.repositories.EmployeRepository;
 import com.example.salhumanbe6.repositories.FicheDePaieRepository;
 import com.example.salhumanbe6.services.CongeService;
 import com.example.salhumanbe6.services.EmployeService;
+import com.example.salhumanbe6.services.FicheDePaieService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +29,7 @@ public class SalHumanBe6Application {
 
     }
     @Bean
-    CommandLineRunner commandLineRunner(EmployeService employeService, CongeService congeService){
+    CommandLineRunner commandLineRunner(EmployeService employeService, CongeService congeService, ElementSalaireRepository elementSalaireRepository, FicheDePaieRepository ficheDePaieRepository){
         return args -> {
             Stream.of("Hassan","Imane","Zineb","Ismail","Nissrine").forEach(name -> {
                 Employe employe = new Employe();
@@ -49,6 +48,7 @@ public class SalHumanBe6Application {
                 employeDTO dto = new transf().fromEmploye(employe);
                 employeService.createEmploye(dto);
             });
+
             employeService.getAllEmploye().forEach(employe -> {
                 for (int i=0;i<=2;i++){
                 Conge conge = new Conge();
@@ -66,6 +66,30 @@ public class SalHumanBe6Application {
                 conge.setEmploye(Employe);
                 congeDTO dto = new transf().fromConge(conge);
                 congeService.createConge(dto);}
+                FicheDePaie ficheDePaie = new FicheDePaie();
+                ficheDePaie.setPeriode("2024-06");
+                ficheDePaie.setMontant_net(Math.random()+15000);
+                ficheDePaie.setMontant_brut(Math.random()+10000);
+                ficheDePaie.setDetails_deductions(5);
+                ficheDePaie.setEmploye(new transf().fromEmployeDTO(employe));
+                ficheDePaieRepository.save(ficheDePaie);
+
+                ElementSalaire salaireBase = new ElementSalaire();
+                salaireBase.setMontant(Math.random());
+                salaireBase.setTypeE(TypeE.base);
+                salaireBase.setFicheDePaie(ficheDePaie);
+
+                ElementSalaire prime = new ElementSalaire();
+                if (employe.getIdEmploye()!=1||employe.getIdEmploye()!=2)
+                    prime.setMontant(Math.random()+10000);
+                {prime.setTypeE(TypeE.prime);
+                prime.setFicheDePaie(ficheDePaie);}
+                    prime.setMontant(Math.random()+10000);
+                    prime.setTypeE(TypeE.base);
+                        prime.setFicheDePaie(ficheDePaie);
+
+                elementSalaireRepository.save(salaireBase);
+                elementSalaireRepository.save(prime);
             });
         };};}
 

@@ -21,5 +21,5 @@ public class ficheDePaieDTO {
     private double montant_brut;
     private double montant_net;
     private int details_deductions;
-
+    private Long idEmploye;
 }

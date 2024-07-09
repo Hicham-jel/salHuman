@@ -18,6 +18,8 @@ public interface EmployeService {
 
     employeDTO getEmploye(Long idEmploye);
 
+    String getEmployeName(Long idEmploye);
+
     employeDTO updateEmploye(Long idEmploye, employeDTO employe);
 
     Page<employeDTO> findByNomContains(String keyword, PageRequest pageRequest);
