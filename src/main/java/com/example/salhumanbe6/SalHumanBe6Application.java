@@ -36,7 +36,7 @@ public class SalHumanBe6Application {
                 employe.setNom(name);
                 employe.setPrenom("Omari");
                 employe.setDate_embauche(new Date());
-                if (name.equals("Hassan") ||name.equals("Imane") ||name.equals("Zineb")) {
+                if (name.equals("Samir") ||name.equals("Imane") ||name.equals("Zineb")) {
                     employe.setPoste("Ingénieure");
                     employe.setDepartement("Informatique");
                 }
